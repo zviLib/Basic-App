@@ -5,6 +5,12 @@ import java.net.Socket;
 
 import sql.SqlPool;
 
+/**
+ * 
+ * @author Zvi Liebskind
+ *
+ * Class that runs the server
+ */
 public class Server {
 
 	public static void main(String[] args) throws Exception {
@@ -23,7 +29,6 @@ public class Server {
 		}).start();
 		   
 		  }
-		  
 	}
 
 }

@@ -9,11 +9,21 @@ import sql.SqlQuery;
 import sql.query.SqlMap;
 import sql.query.SqlAction;
 
+/**
+ * 
+ * @author Zvi Liebskind
+ *
+ * Command that is executed on the sql database
+ */
 public class SqlCommand implements Command {
 
 	private SqlPool pool;
 	private ClientHandler client;
 	
+	/**
+	 * @param client - communication with the client
+	 * @param pool - communication with the database
+	 */
 	public SqlCommand(ClientHandler client,SqlPool pool) {
 		this.pool = pool;
 		this.client = client;
@@ -21,6 +31,7 @@ public class SqlCommand implements Command {
 	
 	@Override
 	public void execute() {
+		// read the type of sql command
 		SqlAction type = SqlAction.getActionByName(client.readString());
 		String query;
 		switch (type) {
@@ -47,6 +58,9 @@ public class SqlCommand implements Command {
 			sendResultSet(sq.getRes());
 	}
 	
+	/**
+	 * @param rs - the resultSet to send to the user
+	 */
 	private void sendResultSet(ResultSet rs) {
 		try {
 			int rowcount = 0;
