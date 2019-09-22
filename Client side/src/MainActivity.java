@@ -23,12 +23,14 @@ public class MainActivity extends AppCompatActivity {
         final Button signin=(Button)findViewById(R.id.signin);
         final Button signup=(Button)findViewById(R.id.signup);
 
+        // take credentials and confirm with the server
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            // get the server's answer
                             final boolean signIn = signIn(((TextView)findViewById(R.id.username)).getText().toString(),((TextView)findViewById(R.id.password)).getText().toString().hashCode());
 
                                 runOnUiThread(new Runnable() {
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // register a new user
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         final String name = ((TextView)findViewById(R.id.username)).getText().toString();
+                        // sign the user at the server
                         final boolean res = signUp(name,((TextView)findViewById(R.id.password)).getText().toString().hashCode());
                         runOnUiThread(new Runnable() {
                             @Override
@@ -70,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+	 * check the credentails for a valid login
+     * @param username - the entered user name
+	 * @param password - hashcode of the entered password
+     * @return whether the credentials are true
+	 */
     public boolean signIn(String username,int password){
         Client client = new Client();
         HashMap<Integer,InfoType> map = new HashMap<>();
@@ -80,7 +90,15 @@ public class MainActivity extends AppCompatActivity {
         return rs[1][0].equals("1");
     }
 
+     /**
+	 * register a new user at the server
+     * @param username - the entered user name
+	 * @param password - hashcode of the entered password
+     * @return if the registration completed successfully
+	 */
     public boolean signUp(String username,int password){
+        
+        // check if the username if available ///
         Client client = new Client();
         HashMap<Integer,InfoType> map = new HashMap<>();
         map.put(0,new InfoType("checkUsername"));
@@ -88,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
         String[][] rs = client.sendSelectCommand(map);
         if (rs[1][0].equals("1"))
             return false;
+        ///////////////////////////////////////
 
+        // register the user //////
         client = new Client();
         map = new HashMap<>();
         map.put(0,new InfoType("registerUser"));
@@ -96,5 +116,6 @@ public class MainActivity extends AppCompatActivity {
         map.put(2,new InfoType(password));
         int ret = client.sendCommand(CommandEnum.sql,map);
         return ret!=0;
+        ///////////////////////////
     }
 }
