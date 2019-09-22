@@ -3,7 +3,7 @@ package com.example.zvi.basicApp.client;
 import android.content.Intent;
 
 /**
- * An object that can hold an interger or string but not both.
+ * An object that can hold an integer or string but not both.
  */
 public class InfoType {
     private final int number;
