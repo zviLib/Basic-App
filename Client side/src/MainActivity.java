@@ -12,7 +12,11 @@ import com.example.zvi.basicApp.client.InfoType;
 
 import java.util.HashMap;
 
-
+/**
+ * 
+ * @author Zvi Liebskind
+ * An Activity that enables a sign up\in with the server
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
