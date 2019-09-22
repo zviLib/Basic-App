@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Map;
 
+/**
+ * 
+ * @author Zvi Liebskind
+ * A simple client that enables to communicate with a server.
+ */
 public class Client {
 
     private Socket clientSocket;
@@ -15,6 +20,7 @@ public class Client {
 
     public Client() {
         try {
+            // currently connects to localhost
             clientSocket = new Socket("10.0.2.2", 8125);
             reader = new DataReader(clientSocket.getInputStream());
             writer = new DataWriter(clientSocket.getOutputStream());
@@ -22,6 +28,11 @@ public class Client {
         }
     }
 
+    /**
+	 * sends a SELECT quary to the SQL database
+     * @param - the quary's arguments
+	 * @return - the resultset received from the database
+	 */
     public String[][] sendSelectCommand(Map<Integer,InfoType> args){
         writer.write(CommandEnum.sql.ordinal());
         //send query
@@ -54,6 +65,11 @@ public class Client {
         return rs;
     }
 
+     /**
+	 * sends a NON-SELECT quary to the SQL database
+     * @param - the quary's arguments
+	 * @return - 1 if the quary was executed successfully
+	 */
     public int sendCommand(CommandEnum command,Map<Integer,InfoType> args){
             writer.write(command.ordinal());
             InfoType arg;
